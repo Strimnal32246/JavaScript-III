@@ -15,20 +15,19 @@
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
-function GameObject(gameAttrs){
-  this.createdAt = gameAttrs.createdAt,
-  this.name = gameAttrs.name,
-  this.dimensions = gameAttrs.dimensions
-};
+function GameObject(gameAttrs) {
+  (this.createdAt = gameAttrs.createdAt),
+    (this.name = gameAttrs.name),
+    (this.dimensions = gameAttrs.dimensions);
+}
 
-GameObject.prototype.dimensions = function (length, width, height){
+GameObject.prototype.dimensions = function(length, width, height) {
   return this.dimensions;
 };
 
-GameObject.prototype.destroy = function(){
-  return `${this.name} was removed from the game.`
+GameObject.prototype.destroy = function() {
+  return `${this.name} was removed from the game.`;
 };
-
 
 /*
   === CharacterStats ===
@@ -38,11 +37,11 @@ GameObject.prototype.destroy = function(){
 */
 function CharacterStats(charStats) {
   GameObject.call(this, charStats);
-  this.healthPoints = charStats.healthPoints
-};
+  this.healthPoints = charStats.healthPoints;
+}
 CharacterStats.prototype = Object.create(GameObject.prototype);
 
-CharacterStats.prototype.takeDamage = function () {
+CharacterStats.prototype.takeDamage = function() {
   return `${this.name} took damage.`;
 };
 
@@ -58,23 +57,23 @@ CharacterStats.prototype.takeDamage = function () {
 // Humaniod Function
 function Humanoid(attrs) {
   CharacterStats.call(this, attrs);
-  this.team = attrs.team,
-    this.weapons = attrs.weapons,
-    this.language = attrs.language
-};
+  (this.team = attrs.team),
+    (this.weapons = attrs.weapons),
+    (this.language = attrs.language);
+}
 
 // tell humaniod about charStats
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 //Humanoid Prototype
-Humanoid.prototype.greet = function () {
-  return `${this.name} offers a greeting in ${this.language}`
+Humanoid.prototype.greet = function() {
+  return `${this.name} offers a greeting in ${this.language}`;
 };
 /*
-  * Inheritance chain: GameObject -> CharacterStats -> Humanoid
-  * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
-  * Instances of CharacterStats should have all of the same properties as GameObject.
-*/
+ * Inheritance chain: GameObject -> CharacterStats -> Humanoid
+ * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
+ * Instances of CharacterStats should have all of the same properties as GameObject.
+ */
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
@@ -141,7 +140,113 @@ Humanoid.prototype.greet = function () {
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 */
 
-  // Stretch task:
-  // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
-  // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
-  // * Create two new objects, one a villain and one a hero and fight it out with methods!
+// Stretch task:
+// * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
+// * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+// * Create two new objects, one a villain and one a hero and fight it out with methods!
+function Villian(attributes) {
+  Humanoid.call(this, attributes);
+}
+Villian.prototype = Object.create(Humanoid.prototype);
+
+Villian.prototype.villian_attack = function(hero) {
+  --hero.hp;
+  if (hero.hp <= 0) {
+    return "I hath slain thee!";
+  } else {
+    return hero.hp;
+  }
+};
+Villian.prototype.death = function(villian) {
+  villian.hp === 0;
+  return `\n You have slain ${villian.name}, thou vicious beast!`;
+};
+
+// The makings of heroes
+function Hero(attributes) {
+  Humanoid.call(this, attributes);
+}
+Hero.prototype = Object.create(Humanoid.prototype);
+Hero.prototype.hero_attack = function(villian) {
+  --villian.hp;
+  if (villian.hp <= 0) {
+    return "I have slain thee";
+  } else {
+    return villian.hp;
+  }
+};
+Hero.prototype.kill_move = function(villian) {
+  let triumph = `I have killed thee, thou ruffian! [translated from Meowish]`;
+  let villianDeath = Villian.prototype.death(villian);
+  let heroWins = triumph + villianDeath;
+  return heroWins;
+};
+
+Hero.prototype.hero_revive = function() {
+  return ++this.hp;
+};
+
+// Our valiant heroes
+const littlth = new Hero({
+  createdAt: new Date(),
+  hp: 20,
+  name: "Bruce",
+  faction: "Small Town Flat Living in a City Flat",
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4
+  },
+  weapons: ["Teeth", "Claws"],
+  language: "Meowish"
+});
+
+const dylanThomas = new Hero({
+  createdAt: new Date(),
+  hp: 20,
+  name: "bruces",
+  faction: "Small Town Cat Living in a City Flat",
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4
+  },
+  weapons: ["Teeth", "Claws"],
+  language: "Meowish"
+});
+
+// The foes in our tale!
+const windows = new Villian({
+  createdAt: new Date(),
+  hp: 2,
+  name: "Window Screen",
+  faction: "Apartment",
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4
+  },
+  weapons: ["Grate", "Glass"],
+  language: "None"
+});
+console.log(windows);
+
+const garbageDisposal = new Villian({
+  createdAt: new Date(),
+  hp: 2,
+  name: "Garbage Disposal",
+  faction: "Apartment",
+  weapons: ["Spinny metal of doom", "Horrible grating noise"],
+  language: "None"
+});
+
+console.log(littlth);
+console.log(windows.villian_attack(bruce));
+console.log(windows.villian_attack(bruce));
+console.log(windows.villian_attack(bruce));
+console.log(bruce.hero_revive());
+console.log(bruce.hero_revive());
+console.log(bruce.hero_revive());
+console.log(bruce.hero_attack(garbageDisposal));
+console.log(bruce.hero_attack(garbageDisposal));
+console.log(bruce.kill_move(windows));
