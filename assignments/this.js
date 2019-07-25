@@ -18,13 +18,42 @@ function yellName(susan) {
 // code example for Window Binding
 console.log(yellName('SusanTrimnal!!!'))
 // Principle 2
-
+const me = {
+    name: 'susan',
+    class: 'web22',
+    sayName: function () {
+        console.log(this.name);
+    }
+}
+me.sayName();
 // code example for Implicit Binding
 
 // Principle 3
+function Cat(name, breed) {
+    this.name = name,
+        this.breed = breed
+};
+
+
+const Simba = new Cat("Simba", "Tabby")
+console.log(Simba) // Cat {name: 'Simba', breed: 'Tabby’ }
+
+
+const Oreo = new Cat("Oreo", "Mixed")
+console.log(Oreo) // Cat {name: 'Oreo', breed: 'Mixed'}
 
 // code example for New Binding
 
 // Principle 4
+const pizza1 = {
+    'storeName': 'Hungry Howies'
+}
 
+const pick = ['Pepperoni', 'Supreme', 'Cheese'];
+
+function order(pick1, pick2, pick3) {
+    console.log(`Hello ${this.storeName}, I want to order ${pick1}, ${pick2} and ${pick3} pizza.`);
+}
+
+order.apply(pizza1, pick);
 // code example for Explicit Binding
